@@ -5,17 +5,30 @@
   sub-title {
     font-family: serif;
   }
+
+  /* 1. body と html の無駄な余白を完全にゼロにする */
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* 横スクロールバーの発生を防止 */
+}
+
+.cover {
+  width: 100vw; /* ブラウザ画面の横幅100% */
+  min-height: calc(100vh - 56px);
   
-  .cover {
-    height: 100%;
-    width: 100%;
-    display: table;
-    background-image: url(/assets/top.jpg);
-    background-color:rgba(255,255,255,0.4);
-    background-blend-mode:lighten;
-    background-size: 100% 100%;
-  }
-  
+  /* 親要素の余白を突き抜けるためのネガティブマージン（必要な場合） */
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+
+  background-image: image-url("top.jpg");
+  background-color: rgba(255, 255, 255, 0.4);
+  background-blend-mode: lighten;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
   .text-center {
     display: table-cell;
     vertical-align: middle;

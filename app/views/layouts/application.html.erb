@@ -11,17 +11,33 @@
   </head>
 
   <body>
-    <% if user_signed_in? %> 
-      <header>
-        <div><%= link_to root_path, class: "text-white nav-link" do %>traveler<% end %></div>
-        <div><%= link_to "トップ", root_path, class: "text-white nav-link" %></div>
-        <div><%= link_to "投稿する", new_post_path, class: "text-white nav-link" %></div>
-        <div><%= link_to "投稿一覧", posts_path, class: "text-white nav-link" %></div>
-        <div><%= link_to "下書き一覧", confirm_posts_path, class: "text-white nav-link" %></div>
-        <div><%= link_to "ユーザ一覧", users_path, class: "text-white nav-link" %></div>
-        <div><%= link_to "マイページ", user_path(current_user.id), class: "text-white nav-link" %></div>
-        <div><%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-white nav-link" %></div>
-      </header>
-    <% end %>
+    <header class="bg-dark p-3">
+      <div class="container d-flex justify-content-between align-items-center">
+        <% if user_signed_in? %> 
+          <!-- ログイン後のナビゲーション -->
+          <div><%= link_to "traveler", root_path, class: "text-white nav-link fs-4 fw-bold" %></div>
+          <div class="d-flex gap-3">
+            <%= link_to "トップ", root_path, class: "text-white nav-link" %>
+            <%= link_to "投稿する", new_post_path, class: "text-white nav-link" %>
+            <%= link_to "投稿一覧", posts_path, class: "text-white nav-link" %>
+            <%= link_to "下書き一覧", confirm_posts_path, class: "text-white nav-link" %>
+            <%= link_to "ユーザ一覧", users_path, class: "text-white nav-link" %>
+            <%= link_to "マイページ", user_path(current_user.id), class: "text-white nav-link" %>
+            <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "text-white nav-link" %>
+          </div>
+        <% else %>
+          <!-- ログイン前のナビゲーション -->
+          <div><%= link_to "traveler", root_path, class: "text-white nav-link fs-4 fw-bold" %></div>
+          <div class="d-flex gap-3">
+            <%= link_to "新規登録", new_user_registration_path, class: "text-white nav-link" %>
+            <%= link_to "ログイン", new_user_session_path, class: "text-white nav-link" %>
+          </div>
+        <% end %>
+      </div>
+    </header>
+
+    <!-- ★必須: 各ページのコンテンツがここに差し込まれます -->
+      <%= yield %>
+    </main>
   </body>
 </html>

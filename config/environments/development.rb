@@ -74,4 +74,7 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = false
+
+  # Windows環境でのアセットキャッシュによるファイルロックエラー回避
+  config.assets.configure { |env| env.cache = Sprockets::Cache::MemoryStore.new }
 end
