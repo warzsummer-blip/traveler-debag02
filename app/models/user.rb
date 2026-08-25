@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  belongs_to :post
+  belongs_to :post, optional: true
   has_many :comments, dependent: :destroy
   has_many :favorites, dependent: :destroy 
   has_many :follower, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   has_one_attached :profile_image
 
-  validates :name, presence: true
+  # validates :name, presence: true
 
   # ユーザーをフォローする
   def follow(user_id)

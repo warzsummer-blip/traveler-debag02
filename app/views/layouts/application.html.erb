@@ -12,7 +12,7 @@
 
   <body>
     <header class="bg-dark p-3">
-      <div class="container d-flex justify-content-between align-items-center">
+      <div class="container-fluid d-flex justify-content-between align-items-center">
         <% if user_signed_in? %> 
           <!-- ログイン後のナビゲーション -->
           <div><%= link_to "traveler", root_path, class: "text-white nav-link fs-4 fw-bold" %></div>

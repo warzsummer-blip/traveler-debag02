@@ -1,14 +1,10 @@
 ja:
-  errors:
-    format: "%{message}"
   activerecord:
+    attributes:
+      user:
+        email: "Eメール"
+        password: "パスワード"
+        name: "名前"
     errors:
-      models:
-        user:
-          attributes:
-            email:
-              blank: "Eメールを入力してください。"
-            password:
-              blank: "パスワードを入力してください。"
-            name:
-              blank: "名前を入力してください。"
+      messages:
+        blank: "を入力してください。"
