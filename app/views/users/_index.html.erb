@@ -1,5 +1,5 @@
 <div class="row mt-5 w-50">
-<% users.each do |user| %>
+  <% users.each do |user| %>
 <div class="one-post card mt-3">
   <%= link_to user_path(user) do %>
   <div class="d-flex">
@@ -11,8 +11,9 @@
     <p class="caption h4 mt-4"><%= user.name %></p>
   </div>
   <p class="caption"><%= "#{user.posts.count} 投稿" %></p>
-  <% end %>
-</div>
+  <p class="caption">閲覧数：<%= user.read_counts.count %></p>
+    <% end %>
+  </div>
 <% end %>
 </div>
 <%= paginate users %>
