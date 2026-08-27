@@ -7,22 +7,25 @@
         <h1 class="font-weight-normal"><%= @user.name %>さんのページ</h1>
       <% end %>
     </div>
+
     <% if user_signed_in? && @user == current_user %>
       <p class="d-flex align-self-end">
         <%= link_to "プロフィール編集", edit_user_path(@user), class: "btn btn-success" %>
       </p>
     <% end %>
-    <% if current_user != @user %>
+
+    <% if user_signed_in? && current_user != @user %>
       <% if current_user.following?(@user) %>
         <p class="d-flex align-self-end">
-          <%= link_to 'フォロー外す', user_relationships_path(@user.id),  data: { turbo_method: :delete }, class: "btn btn-danger" %>
+          <%= link_to 'フォロー外す', user_relationships_path(@user.id), data: { turbo_method: :delete }, class: "btn btn-danger" %>
         </p>
-        <% else %>
+      <% else %>
         <p class="d-flex align-self-end">
-          <%= link_to 'フォローする', user_relationships_path(@user.id),  data: { turbo_method: :post }, class:"btn btn-success" %>
+          <%= link_to 'フォローする', user_relationships_path(@user.id), data: { turbo_method: :post }, class: "btn btn-success" %>
         </p>
       <% end %>
     <% end %>
+
     <div class="d-flex w-100">
       <% if @user.profile_image.attached? %>
         <%= image_tag @user.profile_image, size: '100x100', class: "mb-3 profile-img" %>
@@ -31,6 +34,7 @@
       <% end %>
       <h4 class="ml-3 mb-3 card w-100 profile"><%= @user.profile %></h4>
     </div>
+
     <div class="d-flex">
       <%= link_to follows_user_path(@user) do %>
         <h6>フォロー:<%= @following_users.count %></h6>
@@ -38,8 +42,25 @@
       <%= link_to followers_user_path(@user) do %>
         <h6>フォロワー:<%= @follower_users.count %></h6>
       <% end %>
-       <h6>閲覧数：<%= @user.read_counts.count %></h6>
+      <h6>閲覧数：<%= @user.read_counts.count %></h6>
     </div>
+    <%# チャットエリア (ログイン中の自分以外のページかつ相互フォロー時のみ) %>
+    <% if user_signed_in? && current_user != @user %>
+      <% if current_user.following?(@user) && @user.following?(current_user) %>
+        <% if @isRoom == true %>
+          <p class="user-show-room">
+            <%= link_to "チャットへ", room_path(@roomId), class: "btn btn-primary btn-lg" %>
+          </p>
+        <% else %>
+          <%= form_with model: @room do |f| %>
+            <%= fields_for @entry do |e| %>
+              <%= e.hidden_field :user_id, value: @user.id %>
+            <% end %>
+            <%= f.submit "チャットを始める", class: "btn btn-primary btn-lg user-show-chat" %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
     <div class="row mt-5 index-left w-100">
       <% @posts.each do |post| %>
         <div class="one-post col-sm-3 mb-3">
@@ -51,8 +72,8 @@
             <p class="caption"><%= "#{post.comments.count} コメント" %></p>
           <% end %>
         </div>
-      <% end %>
-
+      <% end %> <%# ← ここに each の閉じタグを追加 %>
+    </div>
     <%= paginate @posts %>
   </div>
 </div>
